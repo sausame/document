@@ -22,7 +22,7 @@ if (! empty($_POST)) {
 <div id='main'></div>
 <hr/>
 
-<a href='document.php?documentId=<?php echo($documentId); ?>'>Modify</a>
+<a href='document.php?documentId=<?php echo($documentId); ?>'>Edit</a>
 <br/>
 <a href="index.php">HOME</a>
 <br/>

@@ -80,7 +80,7 @@ if (! empty($documentId)) {
 <th>ID</th>
 <th>Title</th>
 <th>View</th>
-<th>Modify</th>
+<th>Edit</th>
 <th>Modify Template</th>
 <th>Trash</th>
 </tr>
@@ -102,7 +102,7 @@ while (NULL != ($row = mysqli_fetch_row($result))) {
 	echo("<th>$documentId</th>");
 	echo("<td><pre>$content</pre></td>");
 	echo("<td class='linker'><a href='view.php?documentId=$documentId'>View</a></td>");
-	echo("<td class='linker'><a href='document.php?documentId=$documentId'>Modify</a></td>");
+	echo("<td class='linker'><a href='document.php?documentId=$documentId'>Edit</a></td>");
 	echo("<td class='linker'><a href='template.php?documentId=$documentId'>Modify Template</a></td>");
 	echo("<td class='linker' class='tab'><a href='index.php?documentId=$documentId&action=trash'>Trash</a></td>");
 
@@ -122,7 +122,7 @@ while (NULL != ($row = mysqli_fetch_row($result))) {
 <th>Owner</th>
 <th>Title</th>
 <th>View</th>
-<th>Modify</th>
+<th>Edit</th>
 </tr>
 </thead>
 <tbody>
@@ -148,7 +148,7 @@ while (NULL != ($row = mysqli_fetch_row($result))) {
 	echo("<td>".$row[1]."</td>");
 	echo("<td><pre>$content</pre></td>");
 	echo("<td class='linker'><a href='view.php?documentId=$documentId'>View</a></td>");
-	echo("<td class='linker'><a href='document.php?documentId=$documentId'>Modify</a></td>");
+	echo("<td class='linker'><a href='document.php?documentId=$documentId'>Edit</a></td>");
 
 	echo("</tr>\n");
 }
