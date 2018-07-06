@@ -73,12 +73,24 @@ if (! empty($documentId)) {
 <p>Welcome <?php echo $_COOKIE['ID_your_site']; ?>!</p>
 
 <h2>Your owned documents:</h2>
+
+<table class="tb">
+<thead>
+<tr>
+<th>ID</th>
+<th>Title</th>
+<th>View</th>
+<th>Modify</th>
+<th>Modify Template</th>
+<th>Trash</th>
+</tr>
+</thead>
+<tbody>
+
 <?php
 
 $sql = "SELECT `DocumentId`, `Content` FROM `DocumentTable` WHERE `Trashed` = 0 AND `OwnerId` = '$userId'";
 $result = mysqli_query($con, $sql) or die(mysql_error());
-
-echo("<table border=1>\n");
 
 while (NULL != ($row = mysqli_fetch_row($result))) {
 
@@ -87,21 +99,34 @@ while (NULL != ($row = mysqli_fetch_row($result))) {
 
 	echo("<tr>\n");
 
-	echo("<td>$documentId</td>");
+	echo("<th>$documentId</th>");
 	echo("<td><pre>$content</pre></td>");
-	echo("<td><a href='view.php?documentId=$documentId'>View</a></td>");
-	echo("<td><a href='document.php?documentId=$documentId'>Modify</a></td>");
-	echo("<td><a href='template.php?documentId=$documentId'>Modify Template</a></td>");
-	echo("<td class='tab'><a href='index.php?documentId=$documentId&action=trash'>Trash</a></td>");
+	echo("<td class='linker'><a href='view.php?documentId=$documentId'>View</a></td>");
+	echo("<td class='linker'><a href='document.php?documentId=$documentId'>Modify</a></td>");
+	echo("<td class='linker'><a href='template.php?documentId=$documentId'>Modify Template</a></td>");
+	echo("<td class='linker' class='tab'><a href='index.php?documentId=$documentId&action=trash'>Trash</a></td>");
 
 	echo("</tr>\n");
 }
 
-echo("</table>\n");
-
 ?>
+<tbody>
+</table>
 <br/>
 <h2>Your participated documents:</h2>
+
+<table class="tb">
+<thead>
+<tr>
+<th>ID</th>
+<th>Owner</th>
+<th>Title</th>
+<th>View</th>
+<th>Modify</th>
+</tr>
+</thead>
+<tbody>
+
 <?php
 
 $sql = "SELECT `DocumentId`, `UserName`, `Content`
@@ -112,8 +137,6 @@ $sql = "SELECT `DocumentId`, `UserName`, `Content`
 
 $result = mysqli_query($con, $sql) or die(mysql_error());
 
-echo("<table border=1>\n");
-
 while (NULL != ($row = mysqli_fetch_row($result))) {
 
 	$documentId = $row[0];
@@ -121,18 +144,18 @@ while (NULL != ($row = mysqli_fetch_row($result))) {
 
 	echo("<tr>\n");
 
-	echo("<td>$documentId</td>");
+	echo("<th>$documentId</th>");
 	echo("<td>".$row[1]."</td>");
 	echo("<td><pre>$content</pre></td>");
-	echo("<td><a href='view.php?documentId=$documentId'>View</a></td>");
-	echo("<td><a href='document.php?documentId=$documentId'>Modify</a></td>");
+	echo("<td class='linker'><a href='view.php?documentId=$documentId'>View</a></td>");
+	echo("<td class='linker'><a href='document.php?documentId=$documentId'>Modify</a></td>");
 
 	echo("</tr>\n");
 }
 
-echo("</table>\n");
-
 ?>
+<tbody>
+</table>
 <br/>
 
 <a href="template.php">New document</a>

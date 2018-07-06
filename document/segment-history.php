@@ -105,36 +105,42 @@ $username = $row[2];
 $updatetime = $row[3];
 
 ?>
-<table border="1">
+<table class="tb">
+<thead>
 <tr>
-<td>Segment Name</td>
-<td>Content</td>
-<td>User Name</td>
-<td>Update Time</td>
+<th>Segment Name</th>
+<th>Content</th>
+<th>User Name</th>
+<th>Update Time</th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td><?php echo($segmentName); ?></td>
 <td><?php echo($segmentContent); ?></td>
 <td class="comment"><?php echo($username); ?></td>
 <td><?php echo($updatetime); ?></td>
 </tr>
+</tbody>
 </table>
 
 
 
 <hr/>
 <h2>History</h2>
-<table border="1">
+<table class="tb">
+<thead>
 <tr>
-<td>Id</td>
-<td>Original Content</td>
-<td>New Content</td>
-<td>User Name</td>
-<td>Create Time</td>
-<td>Restore to Original Content</td>
-<td>Restore to New Content</td>
+<th>ID</th>
+<th>Original Content</th>
+<th>New Content</th>
+<th>Editor</th>
+<th>Create Time</th>
+<th>Restore to Original Content</th>
+<th>Restore to New Content</th>
 </tr>
 
+</thead>
 
 <?php
 
@@ -169,19 +175,21 @@ while (NULL != ($row = mysqli_fetch_row($result))) {
 		$restoreToNew = NULL;
 	}
 ?>
+<tbody>
 <tr>
-<td><?php echo($historyId); ?></td>
+<th><?php echo($historyId); ?></th>
 <td><?php echo($originalContent); ?></td>
 <td><?php echo($content); ?></td>
 <td class="comment"><?php echo($username); ?></td>
 <td><?php echo($createtime); ?></td>
-<td><?php echo($restoreToOriginal); ?></td>
-<td><?php echo($restoreToNew); ?></td>
+<td class="linker"><?php echo($restoreToOriginal); ?></td>
+<td class="linker"><?php echo($restoreToNew); ?></td>
 </tr>
 
 <?php
 }
 ?>
+</tbody>
 </table>
 
 <hr/>
