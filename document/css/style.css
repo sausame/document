@@ -97,6 +97,7 @@ tr:nth-child(even) td { background: #F1F1F1; }
 tr:nth-child(odd) td { background: #FEFEFE; }  
 
 .linker:hover { background: #666; color: #FFF; }  
+.hightlight:hover { background: #FF0000; color: #FFF; }  
 /* Hover cell effect! */
 
 /* Style the tab */

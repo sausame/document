@@ -81,15 +81,24 @@ if (! empty($documentId)) {
 </head>
 <body>
 <div>
-<p>Trash of <?php echo $_COOKIE['ID_your_site']; ?>！</p>
+<h2>Your trashed documents:</h2>
 
-<h2>Your owned documents:</h2>
+<table class="tb">
+<thead>
+<tr>
+<th>ID</th>
+<th>Title</th>
+<th>View</th>
+<th>Recover</th>
+<th>Delete</th>
+</tr>
+</thead>
+<tbody>
+
 <?php
 
 $sql = "SELECT `DocumentId`, `Content` FROM `DocumentTable` WHERE `Trashed` = 1 AND `OwnerId` = '$userId'";
 $result = mysqli_query($con, $sql) or die(mysql_error());
-
-echo("<table border=1>\n");
 
 while (NULL != ($row = mysqli_fetch_row($result))) {
 
@@ -98,18 +107,19 @@ while (NULL != ($row = mysqli_fetch_row($result))) {
 
 	echo("<tr>\n");
 
-	echo("<td>$documentId</td>");
+	echo("<th>$documentId</th>");
 	echo("<td><pre>$content</pre></td>");
-	echo("<td><a href='view.php?documentId=$documentId'>View</a></td>");
-	echo("<td><a href='trash.php?documentId=$documentId&action=recover'>Recover</a></td>");
-	echo("<td class='tab'><a href='trash.php?documentId=$documentId&action=delete'>Delete</a></td>");
+	echo("<td class='linker'><a href='view.php?documentId=$documentId'>View</a></td>");
+	echo("<td class='linker'><a href='trash.php?documentId=$documentId&action=recover'>Recover</a></td>");
+	echo("<td class='hightlight'><a href='trash.php?documentId=$documentId&action=delete'>Delete</a></td>");
 
 	echo("</tr>\n");
 }
 
-echo("</table>\n");
-
 ?>
+<tbody>
+</table>
+
 <br/>
 
 <a href="index.php">Home</a>
