@@ -50,7 +50,11 @@ if (NULL != $content) {
 	$content = $row[0];
 }
 
-$content = base64_decode($content);
+if (! empty($content)) {
+	$content = base64_decode($content);
+} else {
+	$content = file_get_contents('../template/sample.md');
+}
 
 ?>
 <!DOCTYPE html>
