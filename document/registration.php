@@ -23,7 +23,7 @@
 
 		$password = password_hash($password, PASSWORD_DEFAULT);
 
-		$query = "INSERT into `users` (username, password, email, createTime, token, tokenUpdateTime) VALUES ('$username', '$password', '$email', NULL, NULL, NULL)";
+		$query = "INSERT into `UserTable` (UserId, Username, Password, Email, CreateTime) VALUES (NULL, '$username', '$password', '$email', NULL)";
 		$result = mysqli_query($con, $query);
 		if($result){
 			echo "<div class='form'><h3>Registration succeeded.</h3><br/> Back to <a href='login.php'>HOME</a>.</div>";
