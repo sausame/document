@@ -60,13 +60,20 @@ $content = base64_decode($content);
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
 <title>Template of #<?php echo($documentId); ?> document</title>
 <link rel="stylesheet" href="css/style.css" />
+<style>
+#content
+{
+  width:100%;
+  height:100%;
+}
+</style>
 </head>
 <body>
 <p>Template of #<?php echo($documentId); ?> Document</p>
 <p><?php echo($message); ?></p>
 <div>
 <form name="document" action="" method="post">
-<textarea id="content" name="content" rows="30" required ><?php echo($content); ?></textarea>
+<textarea cols="50" id="content" rows="30" name="content" required><?php echo($content); ?></textarea>
 <input type="hidden" name="documentId" value="<?php echo($documentId); ?>" />
 <input type="submit" name="submit" value="Update" />
 </form>
