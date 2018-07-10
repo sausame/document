@@ -1,22 +1,16 @@
 <?php
-function toInputs($segname=NULL, $deleted=false, $content=NULL, $editor=NULL, $segid=NULL, $docid=NULL) {
+function toInputs($deleted=0, $content=NULL, $editor=NULL, $segid=NULL, $docid=NULL) {
 
-	$selected0 = !$deleted ? 'selected': '';
-	$selected1 = $deleted ? 'selected': '';
-
-	$line = "<p>\n<select name=\"segmentDeleted[]\"><option value=\"0\" $selected0>Actived</option> <option value=\"1\" $selected1>Deleted</option>\n";
-	$line .= "<input type=\"text\" name=\"segment[]\" value=\"".$content."\"/>\n";
-	$line .= "<font class=\"comment\">".$editor."</font>\n";
-	$line .= "<input type=\"hidden\" name=\"currentSegment[]\" value=\"".$content."\"/>\n";
-	$line .= "<input type=\"hidden\" name=\"currentSegmentDeleted[]\" value=\"".$deleted."\"/>\n";
-	$line .= "<input type=\"hidden\" name=\"segmentTag[]\" value=\"".$segid."\" />\n";
-	$line .= "<input type=\"hidden\" name=\"segmentName[]\" value=\"".$segname."\"/>\n";
-	if ($docid && $segid) {
-		$line .= "<a href='segment-history.php?documentId=$docid&segmentId=$segid'>History</a>";
+	if ($deleted) {
+		$box = 'delete-text-box';
 	} else {
-		$line .= "<button onclick='addLine()'>Add</button>";
+		$box = 'text-box';
 	}
-	$line .= "</p>";
+
+	$line = "<span class='edit-box'>
+		<span class='$box' data-is-deleted='$deleted' data-content-id='$segid'>$content</span>   <span>$editor</span>   <a href='segment-history.php?documentId=$docid&segmentId=$segid'>History</a>
+		</span>
+		<br/>";
 
 	return $line;
 }
@@ -27,25 +21,30 @@ include("auth.php"); //include auth.php file on all secure pages
 
 if (! empty($_POST)) {
 	$documentId = $_POST['documentId'];
+	$datas = $_POST['datas'];
 } elseif (! empty($_GET)) {
 	$documentId = $_GET['documentId'];
+	$datas = $_GET['datas'];
 }
 
 $updated = false;
 
-if (! empty($_POST)) {
+if (! empty($datas)) {
 
-	$num = count($_POST['segment']);
+	$obj = json_decode($datas, true);
+
+	$num = count($obj);
 
 	for ($i = 0; $i < $num; $i ++) {
 
-		$segid = $_POST['segmentTag'][$i];
-		$segment = $_POST['segment'][$i];
-		$deleted = $_POST['segmentDeleted'][$i];
-		$name = $_POST['segmentName'][$i];
-		$currentSegment = $_POST['currentSegment'][$i];
-		$currentDeleted = $_POST['currentSegmentDeleted'][$i];
+		$subObj = $obj[$i];
 
+		$name = $subObj[0];
+		$segid = $subObj[1];
+		$currentSegment = $subObj[2];
+		$currentDeleted = $subObj[3];
+		$segment = $subObj[4];
+		$deleted = $subObj[5];
 
 		if (empty($segid)) {
 
@@ -109,6 +108,8 @@ if ($updated) {
 		$sql = "UPDATE `DocumentTable` SET `EditorIds` = CONCAT(`EditorIds`, '|".$userId."|'), `UpdateTime` = CURRENT_TIMESTAMP WHERE `DocumentId` = $documentId";
 		$result = mysqli_query($con, $sql) or die(mysqli_error($con));
 	}
+
+	header("Location: ".basename(__FILE__)."?documentId=$documentId");
 }
 
 ?>
@@ -140,7 +141,7 @@ while (NULL != ($row = mysqli_fetch_row($result))) {
 
 	$segContent = base64_decode($row[4]);
 
-	$line =	toInputs($row[1], $row[5], $segContent, $row[3], $row[0], $documentId);
+	$line =	toInputs($row[5], $segContent, $row[3], $row[0], $documentId);
 
 	$found = false;
 
@@ -170,28 +171,32 @@ preg_match_all($re, $content, $matches, PREG_SET_ORDER, 0);
 
 foreach ($matches as $match) {
 
-	$segmentContent = "";
 	$name = $match[0];
+
+	$segmentContent = "<span class='div-box' data-name='$name'>\n";
 
 	for ($i = 0; $i < count($segmentNames); $i ++) {
 		if ($segmentNames[$i] == $name) {
-			$segmentContent = $segmentContents[$i];
+			$segmentContent .= $segmentContents[$i];
 			break;
 		}
 	}
 
-	$segmentContent .= toInputs($name);
+	$segmentContent .= "<button class='addBtn'>Add</button>\n</span>\n";
 
 	$content = str_replace($name, $segmentContent, $content);
 }
 
+$content = str_replace("\n", "<br/>\n", $content);
+
 ?>
 
 <div>
-<form name="document" action="" method="post">
 <?php echo($content); ?>
+<form name="document" action="" method="post">
 <input type="hidden" name="documentId" value="<?php echo($documentId); ?>" />
-<input type="submit" name="submit" value="Update" />
+<input id='datas' type="hidden" name="datas" value='' />
+<input id='submit' type="submit" name="submit" value="Submit" />
 </form>
 
 <br/>
@@ -205,6 +210,9 @@ foreach ($matches as $match) {
 <a href="logout.php">Logout</a>
 
 </div>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="js/segment.js"></script>
 </body>
 </html>
 

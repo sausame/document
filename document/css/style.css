@@ -136,3 +136,41 @@ tr:nth-child(odd) td { background: #FEFEFE; }
   border: 1px solid #ccc;
   border-top: none;
 }
+
+.div-box {
+  margin: 5px;;
+}
+
+.edit-box {
+}
+
+.edit {
+}
+
+.delete-text-box {
+  position: relative;
+  text-align: center;
+}
+
+.delete-text-box span {
+  display: inline-block;
+  padding: 0 10px;
+  background: #fff;
+}
+
+.delete-text-box:before {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  top: 30%;
+  height: 30%;
+  background: #ff0000;
+}
+
+.updateBtn, .cancelBtn, .deleteBtn, .undeleteBtn, .resetBtn, .addBtn {
+  margin: 5px 5px;
+}
+
