@@ -8,7 +8,7 @@ function toInputs($deleted=0, $content=NULL, $editor=NULL, $segid=NULL, $docid=N
 	}
 
 	$line = "<span class='edit-box'>
-		<span class='$box' data-is-deleted='$deleted' data-content-id='$segid'>$content</span>   <span>$editor</span>   <a href='segment-history.php?documentId=$docid&segmentId=$segid'>History</a>
+		<span class='$box' data-is-deleted='$deleted' data-content-id='$segid'>$content</span>   <span class='focus-text'>$editor</span>   <a href='segment-history.php?documentId=$docid&segmentId=$segid'>History</a>
 		</span>
 		<br/>";
 
